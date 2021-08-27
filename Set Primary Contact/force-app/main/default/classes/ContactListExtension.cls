@@ -1,6 +1,6 @@
 /**
- * Description : extention for CreateAccount.page
- * Author : 
+ * Description : extention for SetPrimaryContact.page
+ * Author : Burak
  * Created Date : 
  */
 public with sharing class ContactListExtension {
@@ -11,7 +11,6 @@ public with sharing class ContactListExtension {
     //public methods
     //private methods
     
-
     // ALL Queries and DML (insert/update/delete) have to be in try/catch
     // when you catch exception - add ApexPages.addPageMessage();
     private Id currentAccountId;
