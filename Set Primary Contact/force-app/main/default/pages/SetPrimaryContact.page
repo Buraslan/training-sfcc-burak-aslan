@@ -1,0 +1,40 @@
+<apex:page standardController="Account" extensions="ContactListExtension">
+    <apex:pageMessages />
+    <apex:form >
+        <apex:pageBlock title="Account Primary Contact">
+            <apex:pageBlockSection columns="2">
+                <apex:inputField value="{! Account.Name}"/>
+                <apex:inputField value="{! Account.AccountNumber}"/>
+                <apex:inputField value="{! Account.Type}"/>
+                <apex:inputField value="{! Account.Active__c}"/>
+                <apex:inputField value="{! Account.Phone}"/>
+                <apex:inputField value="{! Account.Fax}"/>
+               
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+    <apex:form > 
+
+      <apex:pageBlock title="Search Related Contacts"> 
+    			<apex:inputText value="{! keyword}"/>
+               <apex:commandButton value="Search" action="{!searchContacts}"/>
+
+      </apex:pageBlock>  
+
+      <apex:pageBlock title="Related Contacts">
+      		<apex:pageBlockTable value="{!contacts}" var="contact">
+      			<apex:column value="{!contact.Name}"/>
+      			<apex:column value="{!contact.Title}"/>
+      			<apex:column value="{!contact.Phone}"/>
+      			<apex:column value="{!contact.Is_Primary_Contact__c}"/>
+     
+   	</apex:pageBlockTable>
+	</apex:pageBlock>    
+
+    </apex:form>        
+
+</apex:page>
