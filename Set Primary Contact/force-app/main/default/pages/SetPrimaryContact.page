@@ -8,8 +8,7 @@
                 <apex:inputField value="{! Account.Type}"/>
                 <apex:inputField value="{! Account.Active__c}"/>
                 <apex:inputField value="{! Account.Phone}"/>
-                <apex:inputField value="{! Account.Fax}"/>
-               
+                <apex:inputField value="{! Account.Fax}"/>  
             </apex:pageBlockSection>
             <apex:pageBlockButtons >
                 <apex:commandButton value="Save" action="{!save}"/>
@@ -24,17 +23,19 @@
                <apex:commandButton value="Search" action="{!searchContacts}"/>
 
       </apex:pageBlock>  
-
       <apex:pageBlock title="Related Contacts">
       		<apex:pageBlockTable value="{!contacts}" var="contact">
       			<apex:column value="{!contact.Name}"/>
       			<apex:column value="{!contact.Title}"/>
       			<apex:column value="{!contact.Phone}"/>
       			<apex:column value="{!contact.Is_Primary_Contact__c}"/>
-     
-   	</apex:pageBlockTable>
-	</apex:pageBlock>    
-
+                <apex:column> 
+                    <apex:commandLink value="Set As Primary" action="{!setPrimary}" 
+                    onclick="if(confirm( 'Are you sure?')){ return true ;} else { return false;};">
+                    <apex:param name="currentContactId" value="{!contact.Id}" assignTo="{!currentContactId}" />
+                    </apex:commandLink>
+                  </apex:column>
+   	        </apex:pageBlockTable>
+	    </apex:pageBlock>    
     </apex:form>        
-
 </apex:page>

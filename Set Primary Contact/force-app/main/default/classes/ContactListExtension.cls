@@ -1,33 +1,31 @@
 /**
- * Description : extention for SetPrimaryContact.page
+ * Description : Extension for SetPrimaryContact.page
  * Author : Burak
- * Created Date : 
+ * Created Date: 26.08.2021
  */
+
+
 public with sharing class ContactListExtension {
-    //constants
-    //public variables
-    //private variables
-    //constructor
-    //public methods
-    //private methods
-    
-    // ALL Queries and DML (insert/update/delete) have to be in try/catch
-    // when you catch exception - add ApexPages.addPageMessage();
-    private Id currentAccountId;
+ 
+
+    public Id currentContactId{get;set;}
     public String keyword{get;set;}
     public List<Contact> contacts {get;set;}
-
+    private Id currentAccountId;
+    
+    
     
     public ContactListExtension(ApexPages.StandardController stdController) {   
         this.currentAccountId = stdController.getId();
         this.keyword = '';
         this.searchContacts();
+        
+   
     }
-
     //this is method for search
     public void searchContacts() {
-        //read about difference between String.isBlank() and String.isEmpty();
-        if(this.keyword == NULL) {
+       
+        if(this.keyword == ' ') {
             return;
         }
 
@@ -39,4 +37,23 @@ public with sharing class ContactListExtension {
             LIMIT 1000];
         
     }
+    //this is method for set primary contact
+    public void setPrimary(){ 
+        List<Contact> allContacts = [SELECT Id, Is_Primary_Contact__c 
+            FROM Contact 
+            WHERE AccountId = :this.currentAccountId];
+
+        List<Contact> oldConts = new List<Contact>();
+        
+
+        for(Contact oldCon: allContacts){
+            oldCon.Is_Primary_Contact__c = (oldCon.Id == currentContactId);
+            
+        }
+        update allContacts;
+        this.searchContacts();
+        
+    }
+
+
 }
