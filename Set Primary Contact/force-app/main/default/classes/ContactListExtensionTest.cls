@@ -47,7 +47,7 @@ public class ContactListExtensionTest {
             Test.setCurrentPage(testPage);
             ApexPages.StandardController sc = new ApexPages.StandardController(testAccount);
             ContactListExtension contactController = new ContactListExtension(sc);
-            contactController.keyword = ' ';
+            contactController.currentAccountId = NULL;
             contactController.searchContacts();
         Test.stopTest();
         System.assertEquals(contactController.contacts.size(), 0);

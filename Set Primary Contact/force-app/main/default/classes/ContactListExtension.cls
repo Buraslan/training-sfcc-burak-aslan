@@ -11,7 +11,8 @@ public with sharing class ContactListExtension {
     public Id currentContactId{get;set;}
     public String keyword{get;set;}
     public List<Contact> contacts {get;set;}
-    private Id currentAccountId;
+    public Id currentAccountId;
+    public List<Contact> allContacts;
     
     
     
@@ -25,23 +26,39 @@ public with sharing class ContactListExtension {
     //this is method for search
     public void searchContacts() {
        
-        if(this.keyword == ' ') {
+        if(this.keyword == NULL) {
             return;
         }
 
         String searchString = '%'+String.escapeSingleQuotes(this.keyword)+'%';
-        this.contacts = [SELECT Id, Name, Title, Is_Primary_Contact__c, Phone 
+
+        try{
+            this.contacts = [SELECT Id, Name, Title, Is_Primary_Contact__c, Phone 
             FROM Contact 
             WHERE AccountId = :this.currentAccountId 
                 AND Name LIKE :searchString
             LIMIT 1000];
+
+        }catch(QueryException e){
+            System.debug('Query exception hit');
+
+        }
+        
         
     }
     //this is method for set primary contact
     public void setPrimary(){ 
-        List<Contact> allContacts = [SELECT Id, Is_Primary_Contact__c 
+        
+            try{
+                this.allContacts = [SELECT Id, Is_Primary_Contact__c 
             FROM Contact 
             WHERE AccountId = :this.currentAccountId];
+
+    
+            }catch(QueryException e){
+                System.debug('Query exception hit');
+    
+            }
 
         List<Contact> oldConts = new List<Contact>();
         
